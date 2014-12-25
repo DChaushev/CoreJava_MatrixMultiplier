@@ -1,5 +1,10 @@
 package com.fmi.corejava.operations;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveAction;
+
 /**
  *
  * @author Dimitar
@@ -8,7 +13,7 @@ public class MatrixMutiplier {
 
     private double[][] matrixOne;
     private double[][] matrixTwo;
-    double[][] result;
+    private double[][] result;
 
     public MatrixMutiplier(double[][] matrixOne, double[][] matrixTwo) {
         this.setMatrices(matrixOne, matrixTwo);
@@ -30,7 +35,7 @@ public class MatrixMutiplier {
 
         this.matrixOne = matrixOne;
         this.matrixTwo = matrixTwo;
-        result = new double[matrixOne[0].length][matrixTwo.length];
+        result = new double[matrixOne.length][matrixTwo[0].length];
     }
 
     public double[][] computeSingleThreaded() {
@@ -43,5 +48,42 @@ public class MatrixMutiplier {
             }
         }
         return result;
+    }
+
+    public double[][] computeMultiThreaded() {
+
+        List<RecursiveAction> threads = new ArrayList<>();
+
+        for (int i = 0; i < result.length; i++) {
+            for (int j = 0; j < result[0].length; j++) {
+                MatrixMultiplierMultiThreaded m = new MatrixMultiplierMultiThreaded(i, j);
+                threads.add(m);
+            }
+        }
+
+        ForkJoinTask.invokeAll(threads);
+        threads.stream().forEach((thread) -> {
+            thread.join();
+        });
+
+        return result;
+    }
+
+    private class MatrixMultiplierMultiThreaded extends RecursiveAction {
+
+        int row;
+        int col;
+
+        public MatrixMultiplierMultiThreaded(int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
+
+        @Override
+        protected void compute() {
+            for (int i = 0; i < matrixTwo.length; i++) {
+                result[row][col] += matrixOne[row][i] * matrixTwo[i][col];
+            }
+        }
     }
 }
