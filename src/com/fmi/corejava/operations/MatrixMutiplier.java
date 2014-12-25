@@ -71,8 +71,8 @@ public class MatrixMutiplier {
 
     private class MatrixMultiplierMultiThreaded extends RecursiveAction {
 
-        int row;
-        int col;
+        private int row;
+        private int col;
 
         public MatrixMultiplierMultiThreaded(int row, int col) {
             this.row = row;
