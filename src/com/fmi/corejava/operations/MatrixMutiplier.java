@@ -18,7 +18,7 @@ public class MatrixMutiplier {
     public MatrixMutiplier(double[][] matrixOne, double[][] matrixTwo) {
         this.setMatrices(matrixOne, matrixTwo);
     }
-    
+
     public void setMatrices(double[][] matrixOne, double[][] matrixTwo) {
 
         if (matrixOne == null || matrixTwo == null) {
@@ -55,10 +55,7 @@ public class MatrixMutiplier {
         List<RecursiveAction> threads = new ArrayList<>();
 
         for (int i = 0; i < result.length; i++) {
-            for (int j = 0; j < result[0].length; j++) {
-                MatrixMultiplierMultiThreaded m = new MatrixMultiplierMultiThreaded(i, j);
-                threads.add(m);
-            }
+            threads.add(new MatrixMultiplierMultiThreaded(i));
         }
 
         ForkJoinTask.invokeAll(threads);
@@ -72,17 +69,18 @@ public class MatrixMutiplier {
     private class MatrixMultiplierMultiThreaded extends RecursiveAction {
 
         private int row;
-        private int col;
 
-        public MatrixMultiplierMultiThreaded(int row, int col) {
+        public MatrixMultiplierMultiThreaded(int row) {
             this.row = row;
-            this.col = col;
         }
 
         @Override
         protected void compute() {
             for (int i = 0; i < matrixTwo.length; i++) {
-                result[row][col] += matrixOne[row][i] * matrixTwo[i][col];
+                for (int j = 0; j < matrixTwo[0].length; j++) {
+                    result[row][j] += matrixOne[row][i] * matrixTwo[i][j];
+                }
+
             }
         }
     }

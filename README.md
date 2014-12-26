@@ -11,5 +11,5 @@ Observations:<br/>
 While computin single threaded multiplication my processor (Intel i7) was working at ~18%.<br/>
 But while computing the multithreaded multiplication - it was at ~99%.<br/>
 
-Average single-threaded multiplication time: 13785ms.<br/>
-Average multi-threaded multiplication time: 3892ms.
+Average single-threaded multiplication time: 13262ms.<br/>
+Average multi-threaded multiplication time: 285ms.
