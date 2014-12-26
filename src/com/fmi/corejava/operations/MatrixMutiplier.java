@@ -18,8 +18,8 @@ public class MatrixMutiplier {
     public MatrixMutiplier(double[][] matrixOne, double[][] matrixTwo) {
         this.setMatrices(matrixOne, matrixTwo);
     }
-
-    private void setMatrices(double[][] matrixOne, double[][] matrixTwo) {
+    
+    public void setMatrices(double[][] matrixOne, double[][] matrixTwo) {
 
         if (matrixOne == null || matrixTwo == null) {
             throw new NullPointerException("The matrices are not initialized");
