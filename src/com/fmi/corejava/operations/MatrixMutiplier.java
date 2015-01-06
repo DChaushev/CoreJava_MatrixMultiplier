@@ -41,8 +41,8 @@ public class MatrixMutiplier {
     public double[][] computeSingleThreaded() {
 
         for (int i = 0; i < matrixOne.length; i++) {
-            for (int j = 0; j < matrixTwo[0].length; j++) {
-                for (int l = 0; l < matrixTwo.length; l++) {
+            for (int l = 0; l < matrixTwo.length; l++) {
+                for (int j = 0; j < matrixTwo[0].length; j++) {
                     result[i][j] += matrixOne[i][l] * matrixTwo[l][j];
                 }
             }
