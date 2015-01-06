@@ -2,6 +2,7 @@ package com.fmi.corejava.operations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 
@@ -49,16 +50,22 @@ public class MatrixMutiplier {
         }
         return result;
     }
+    
+    public double[][] computeMultiThreaded(){
+        return computeMultiThreaded(Runtime.getRuntime().availableProcessors());
+    }
 
-    public double[][] computeMultiThreaded() {
+    public double[][] computeMultiThreaded(int cores) {
 
+        ForkJoinPool pool = new ForkJoinPool(cores);
         List<RecursiveAction> threads = new ArrayList<>();
 
         for (int i = 0; i < result.length; i++) {
-            threads.add(new MatrixMultiplierMultiThreaded(i));
+            RecursiveAction r = new MatrixMultiplierMultiThreaded(i);
+            threads.add(r);
+            pool.execute(r);
         }
 
-        ForkJoinTask.invokeAll(threads);
         threads.stream().forEach((thread) -> {
             thread.join();
         });
