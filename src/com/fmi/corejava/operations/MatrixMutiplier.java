@@ -61,12 +61,15 @@ public class MatrixMutiplier {
 
     public double[][] computeMultiThreaded(int cores) {
 
-        int rows = result.length / cores;
+        int rowsPerThread = result.length / cores;
+        if (rowsPerThread == 0) {
+            rowsPerThread = 1;
+        }
 
         List<Thread> threads = new ArrayList<>();
 
-        for (int i = 0; i < result.length; i += rows) {
-            Runnable r = new MatrixMultiplierMultiThreaded(i, i + Math.min(rows, result.length - i));
+        for (int i = 0; i < result.length; i += rowsPerThread) {
+            Runnable r = new MatrixMultiplierMultiThreaded(i, i + Math.min(rowsPerThread, result.length - i));
             Thread t = new Thread(r);
             t.start();
             threads.add(t);
