@@ -1,10 +1,14 @@
 package com.fmi.corejava.operations;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -50,44 +54,53 @@ public class MatrixMutiplier {
         }
         return result;
     }
-    
-    public double[][] computeMultiThreaded(){
+
+    public double[][] computeMultiThreaded() {
         return computeMultiThreaded(Runtime.getRuntime().availableProcessors());
     }
 
     public double[][] computeMultiThreaded(int cores) {
 
-        ForkJoinPool pool = new ForkJoinPool(cores);
-        List<RecursiveAction> threads = new ArrayList<>();
+        int rows = result.length / cores;
 
-        for (int i = 0; i < result.length; i++) {
-            RecursiveAction r = new MatrixMultiplierMultiThreaded(i);
-            threads.add(r);
-            pool.execute(r);
+        List<Thread> threads = new ArrayList<>();
+
+        for (int i = 0; i < result.length; i += rows) {
+            Runnable r = new MatrixMultiplierMultiThreaded(i, i + Math.min(rows, result.length - i));
+            Thread t = new Thread(r);
+            t.start();
+            threads.add(t);
         }
 
-        threads.stream().forEach((thread) -> {
-            thread.join();
-        });
-
+        try {
+            for (Thread thread : threads) {
+                thread.join();
+            }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MatrixMutiplier.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return result;
     }
 
-    private class MatrixMultiplierMultiThreaded extends RecursiveAction {
+    private class MatrixMultiplierMultiThreaded implements Runnable {
 
-        private int row;
+        private int startRow;
+        private int endRow;
 
-        public MatrixMultiplierMultiThreaded(int row) {
-            this.row = row;
+        public MatrixMultiplierMultiThreaded(int startRow, int endRow) {
+            //System.out.printf("%d %d\n", startRow, endRow);
+            this.startRow = startRow;
+            this.endRow = endRow;
         }
 
         @Override
-        protected void compute() {
-            for (int i = 0; i < matrixTwo.length; i++) {
-                for (int j = 0; j < matrixTwo[0].length; j++) {
-                    result[row][j] += matrixOne[row][i] * matrixTwo[i][j];
+        public void run() {
+            for (int row = startRow; row < endRow; row++) {
+                for (int i = 0; i < matrixTwo.length; i++) {
+                    for (int j = 0; j < matrixTwo[0].length; j++) {
+                        result[row][j] += matrixOne[row][i] * matrixTwo[i][j];
+                    }
                 }
-
             }
         }
     }

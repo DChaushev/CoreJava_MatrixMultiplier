@@ -36,7 +36,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        
+
         int cores = Runtime.getRuntime().availableProcessors();
         double T;
         int a;
@@ -48,7 +48,6 @@ public class Main {
         double[][] res = null;
         long endTime;
 
-        
         //1.
         System.out.println("Starting linear multiplication...");
         startTime = System.currentTimeMillis();
@@ -59,8 +58,7 @@ public class Main {
         T = (endTime - startTime) / 10;
         System.out.printf("    Sync: %.2f\n", T);
         System.out.printf("    Sync result: %b\n", compare(res, result));
-   
-        
+
         //2.
         System.out.println("Starting milti-threaded multiplication...");
         for (int i = 1; i <= cores; i++) {
@@ -69,10 +67,10 @@ public class Main {
                 res = new MatrixMutiplier(m1, m2).computeMultiThreaded(i);
             }
             endTime = System.currentTimeMillis();
-            a = (int)(endTime - startTime) / 10;
-            System.out.printf("    a[%d] = Speed: %d Acc: %.4f times\n", i, a, T/a);
+            a = (int) (endTime - startTime) / 10;
+            System.out.printf("    a[%d] = Speed: %d Acc: %.4f times\n", i, a, T / a);
+            System.out.printf("    Async result: %b\n", compare(res, result));
         }
-        System.out.printf("    Async result: %b\n", compare(res, result));
         //printMatrix(res);
 
     }
