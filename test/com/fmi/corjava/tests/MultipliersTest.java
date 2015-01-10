@@ -53,11 +53,11 @@ public class MultipliersTest {
         result = multiplier.computeSingleThreaded();
         assertArrayEquals(result, testResult);
 
-        multiplier.setMatrices(testSimple1, testSimple2);
+        multiplier = new MatrixMutiplier(testSimple1, testSimple2);
         result = multiplier.computeSingleThreaded();
         assertArrayEquals(result, testSimpleResult);
 
-        multiplier.setMatrices(testImpossible1, testImpossible2);
+        multiplier = new MatrixMutiplier(testImpossible1, testImpossible2);
 
     }
 
@@ -68,11 +68,11 @@ public class MultipliersTest {
         result = multiplier.computeMultiThreaded();
         assertArrayEquals(result, testResult);
 
-        multiplier.setMatrices(testSimple1, testSimple2);
+        multiplier = new MatrixMutiplier(testSimple1, testSimple2);
         result = multiplier.computeMultiThreaded();
         assertArrayEquals(result, testSimpleResult);
 
-        multiplier.setMatrices(testImpossible1, testImpossible2);
+        multiplier = new MatrixMutiplier(testImpossible1, testImpossible2);
 
     }
 

@@ -40,9 +40,9 @@ public class Main {
         int cores = Runtime.getRuntime().availableProcessors();
         double T;
         int a;
-        double[][] m1 = MatrixFileInteraction.readMatrix(new File("ExampleMatrices\\Ex2\\left"));
-        double[][] m2 = MatrixFileInteraction.readMatrix(new File("ExampleMatrices\\Ex2\\right"));
-        double[][] result = MatrixFileInteraction.readMatrix(new File("ExampleMatrices\\Ex2\\result"));
+        double[][] m1 = MatrixFileInteraction.readMatrix(new File("ExampleMatrices\\Ex1\\left"));
+        double[][] m2 = MatrixFileInteraction.readMatrix(new File("ExampleMatrices\\Ex1\\right"));
+        double[][] result = MatrixFileInteraction.readMatrix(new File("ExampleMatrices\\Ex1\\result"));
 
         long startTime;
         double[][] res = null;

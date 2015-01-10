@@ -1,12 +1,8 @@
 package com.fmi.corejava.operations;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +20,7 @@ public class MatrixMutiplier {
         this.setMatrices(matrixOne, matrixTwo);
     }
 
-    public void setMatrices(double[][] matrixOne, double[][] matrixTwo) {
+    private void setMatrices(double[][] matrixOne, double[][] matrixTwo) {
 
         if (matrixOne == null || matrixTwo == null) {
             throw new NullPointerException("The matrices are not initialized");
@@ -59,36 +55,35 @@ public class MatrixMutiplier {
         return computeMultiThreaded(Runtime.getRuntime().availableProcessors());
     }
 
-    public double[][] computeMultiThreaded(int cores) {
+    public double[][] computeMultiThreaded(final int cores) {
 
         int rowsPerThread = result.length / cores;
         if (rowsPerThread == 0) {
             rowsPerThread = 1;
         }
 
-        List<Thread> threads = new ArrayList<>();
+        ExecutorService service = Executors.newFixedThreadPool(cores);
 
         for (int i = 0; i < result.length; i += rowsPerThread) {
             Runnable r = new MatrixMultiplierMultiThreaded(i, i + Math.min(rowsPerThread, result.length - i));
-            Thread t = new Thread(r);
-            t.start();
-            threads.add(t);
+            service.submit(r);
         }
-
+        
+        service.shutdown();
+  
         try {
-            for (Thread thread : threads) {
-                thread.join();
-            }
+            service.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (InterruptedException ex) {
             Logger.getLogger(MatrixMutiplier.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return result;
     }
 
     private class MatrixMultiplierMultiThreaded implements Runnable {
 
-        private int startRow;
-        private int endRow;
+        final private int startRow;
+        final private int endRow;
 
         public MatrixMultiplierMultiThreaded(int startRow, int endRow) {
             //System.out.printf("%d %d\n", startRow, endRow);
