@@ -23,15 +23,15 @@ public class MatrixMutiplier {
     private void setMatrices(double[][] matrixOne, double[][] matrixTwo) {
 
         if (matrixOne == null || matrixTwo == null) {
-            throw new NullPointerException("The matrices are not initialized");
+            throw new NullPointerException("The matrices are not initialized!");
         }
 
         if (matrixOne.length == 0 || matrixTwo.length == 0) {
-            throw new ArrayIndexOutOfBoundsException("The matrix has 0 columns => not matrix");
+            throw new ArrayIndexOutOfBoundsException("The matrix has 0 columns => not matrix!");
         }
 
         if (matrixOne[0].length != matrixTwo.length) {
-            throw new ArithmeticException("The matrices cannot be multiplied");
+            throw new ArithmeticException("The matrices cannot be multiplied due to length differences!");
         }
 
         this.matrixOne = matrixOne;
@@ -57,20 +57,24 @@ public class MatrixMutiplier {
 
     public double[][] computeMultiThreaded(final int cores) {
 
+        if (cores < 1) {
+            throw new IllegalArgumentException("Cores number cannot be non-positive!");
+        }
+
         int rowsPerThread = result.length / cores;
         if (rowsPerThread == 0) {
             rowsPerThread = 1;
         }
-
+        
         ExecutorService service = Executors.newFixedThreadPool(cores);
 
         for (int i = 0; i < result.length; i += rowsPerThread) {
             Runnable r = new MatrixMultiplierMultiThreaded(i, i + Math.min(rowsPerThread, result.length - i));
             service.submit(r);
         }
-        
+
         service.shutdown();
-  
+
         try {
             service.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (InterruptedException ex) {
