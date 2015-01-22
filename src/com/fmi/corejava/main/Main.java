@@ -38,7 +38,7 @@ public class Main {
         T = (endTime - startTime) / 10;
         System.out.printf("    Sync: %.2f\n", T);
         System.out.printf("    Sync result: %b\n", res.equals(result));
-//
+        
         //2.
         System.out.println("Starting milti-threaded multiplication...");
         for (int i = 1; i <= cores; i++) {

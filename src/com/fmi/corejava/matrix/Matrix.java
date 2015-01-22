@@ -18,18 +18,18 @@ public class Matrix {
     private double[][] matrix;
 
     public Matrix(File file) {
-        this.setContent(MatrixFileInteraction.readMatrix(file));
+        this.setMatrix(MatrixFileInteraction.readMatrix(file));
     }
 
     public Matrix(double[][] matrix) {
-        this.setContent(matrix);
+        this.setMatrix(matrix);
     }
     
     public Matrix(Matrix matrix){
-        this.setContent(matrix.getContent());
+        this.setMatrix(matrix.getMatrix());
     }
 
-    public final double[][] getContent() {
+    public final double[][] getMatrix() {
         double[][] result = new double[matrix.length][matrix[0].length];
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
@@ -39,7 +39,7 @@ public class Matrix {
         return result;
     }
 
-    public synchronized void setContent(double[][] matrix) {
+    public synchronized void setMatrix(double[][] matrix) {
         this.matrix = new double[matrix.length][matrix[0].length];
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
@@ -56,20 +56,20 @@ public class Matrix {
         return multiply(m, true, Runtime.getRuntime().availableProcessors());
     }
     
-    public Matrix multiplyMultiThreaded(Matrix m, int cores) {
-        return multiply(m, true, cores);
+    public Matrix multiplyMultiThreaded(Matrix m, int threads) {
+        return multiply(m, true, threads);
     }
 
-    private Matrix multiply(Matrix m, boolean multy, int cores){
+    private Matrix multiply(Matrix m, boolean multy, int threads){
 
-        final double[][] matrixTwo = m.getContent();
+        final double[][] matrixTwo = m.getMatrix();
 
         MatrixMutiplier multiplyer = new MatrixMutiplier(matrix, matrixTwo);
         
         if(!multy){
             return new Matrix(multiplyer.computeSingleThreaded());
         }else
-            return new Matrix(multiplyer.computeMultiThreaded(cores));
+            return new Matrix(multiplyer.computeMultiThreaded(threads));
     }
 
     public double getElement(int i, int j) {

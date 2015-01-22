@@ -55,18 +55,18 @@ public class MatrixMutiplier {
         return computeMultiThreaded(Runtime.getRuntime().availableProcessors());
     }
 
-    public double[][] computeMultiThreaded(final int cores) {
+    public double[][] computeMultiThreaded(final int threads) {
 
-        if (cores < 1) {
-            throw new IllegalArgumentException("Cores number cannot be non-positive!");
+        if (threads < 1) {
+            throw new IllegalArgumentException("Threads number cannot be non-positive!");
         }
 
-        int rowsPerThread = result.length / cores;
+        int rowsPerThread = result.length / threads;
         if (rowsPerThread == 0) {
             rowsPerThread = 1;
         }
         
-        ExecutorService service = Executors.newFixedThreadPool(cores);
+        ExecutorService service = Executors.newFixedThreadPool(threads);
 
         for (int i = 0; i < result.length; i += rowsPerThread) {
             Runnable r = new MatrixMultiplierMultiThreaded(i, i + Math.min(rowsPerThread, result.length - i));
