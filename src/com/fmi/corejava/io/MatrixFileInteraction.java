@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class MatrixFileInteraction {
 
-    public static double[][] readMatrix(File file) {
+    public static double[][] loadMatrix(File file) {
 
         double[][] result = null;
         int rows;

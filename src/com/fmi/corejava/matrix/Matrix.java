@@ -18,7 +18,7 @@ public class Matrix {
     private double[][] matrix;
 
     public Matrix(File file) {
-        this.setMatrix(MatrixFileInteraction.readMatrix(file));
+        this.setMatrix(MatrixFileInteraction.loadMatrix(file));
     }
 
     public Matrix(double[][] matrix) {

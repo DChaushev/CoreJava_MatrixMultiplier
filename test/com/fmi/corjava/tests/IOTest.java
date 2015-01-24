@@ -27,21 +27,21 @@ public class IOTest {
 
     @Test
     public void readMatrixTest() {
-        example1Matrix1 = MatrixFileInteraction.readMatrix(new File("ExampleMatrices\\Ex1\\left"));
-        example1Matrix2 = MatrixFileInteraction.readMatrix(new File("ExampleMatrices\\Ex1\\right"));
+        example1Matrix1 = MatrixFileInteraction.loadMatrix(new File("ExampleMatrices\\Ex1\\left"));
+        example1Matrix2 = MatrixFileInteraction.loadMatrix(new File("ExampleMatrices\\Ex1\\right"));
     }
 
     @Test
     public void writeMatrixTest() {
-        example1Matrix1 = MatrixFileInteraction.readMatrix(new File("ExampleMatrices\\Ex1\\left"));
-        example1Matrix2 = MatrixFileInteraction.readMatrix(new File("ExampleMatrices\\Ex1\\right"));
+        example1Matrix1 = MatrixFileInteraction.loadMatrix(new File("ExampleMatrices\\Ex1\\left"));
+        example1Matrix2 = MatrixFileInteraction.loadMatrix(new File("ExampleMatrices\\Ex1\\right"));
         MatrixFileInteraction.writeMatrix(new MatrixMutiplier(example1Matrix1, example1Matrix2).computeMultiThreaded(), new File("resultMatrix"));
     }
 
     @Test(expected = ArithmeticException.class)
     public void readFalseMatricesARexTest() {
-        example3Matrix1 = MatrixFileInteraction.readMatrix(new File("ExampleMatrices\\Ex3\\left"));
-        example3Matrix2 = MatrixFileInteraction.readMatrix(new File("ExampleMatrices\\Ex3\\right"));
+        example3Matrix1 = MatrixFileInteraction.loadMatrix(new File("ExampleMatrices\\Ex3\\left"));
+        example3Matrix2 = MatrixFileInteraction.loadMatrix(new File("ExampleMatrices\\Ex3\\right"));
         new MatrixMutiplier(example3Matrix1, example3Matrix2);
     }
 }

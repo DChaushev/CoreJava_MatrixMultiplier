@@ -51,7 +51,7 @@ public class MatrixTest {
     public void testMatrixConsructors(){
         File f = new File("ExampleMatrices\\Ex1\\left");
         
-        double[][] matrixFromFile = MatrixFileInteraction.readMatrix(f);
+        double[][] matrixFromFile = MatrixFileInteraction.loadMatrix(f);
         Matrix matrix1 = new Matrix(f);
         Matrix matrix2 = new Matrix(matrixFromFile);
         Matrix matrix3 = new Matrix(matrix2);
