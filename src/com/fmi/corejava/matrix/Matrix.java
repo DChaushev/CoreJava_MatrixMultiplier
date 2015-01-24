@@ -8,6 +8,7 @@ package com.fmi.corejava.matrix;
 import com.fmi.corejava.io.MatrixFileInteraction;
 import com.fmi.corejava.operations.MatrixMutiplier;
 import java.io.File;
+import java.util.Arrays;
 
 /**
  *
@@ -96,6 +97,13 @@ public class Matrix {
             }
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Arrays.deepHashCode(this.matrix);
+        return hash;
     }
 
     @Override
