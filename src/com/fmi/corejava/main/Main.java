@@ -5,7 +5,7 @@
  */
 package com.fmi.corejava.main;
 
-import com.fmi.corejava.io.MatrixFileInteraction;
+import com.fmi.corejava.io.MatrixFileCommunicator;
 import com.fmi.corejava.matrix.Matrix;
 import java.io.File;
 
@@ -57,7 +57,7 @@ public class Main {
                 System.out.printf("    Async result: %b\n", res.equals(result));
             }
 
-            MatrixFileInteraction.writeMatrix(res.getMatrix(), new File("calculated_result"));
+            MatrixFileCommunicator.writeMatrix(res.getMatrix(), new File("calculated_result"));
 
         } catch (ArithmeticException | ArrayIndexOutOfBoundsException | NullPointerException | IllegalArgumentException ex) {
             System.out.println(ex.getMessage());

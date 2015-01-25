@@ -5,7 +5,7 @@
  */
 package com.fmi.corjava.tests;
 
-import com.fmi.corejava.io.MatrixFileInteraction;
+import com.fmi.corejava.io.MatrixFileCommunicator;
 import com.fmi.corejava.matrix.Matrix;
 import java.io.File;
 import org.junit.BeforeClass;
@@ -51,7 +51,7 @@ public class MatrixTest {
     public void testMatrixConsructors(){
         File f = new File("ExampleMatrices\\Ex1\\left");
         
-        double[][] matrixFromFile = MatrixFileInteraction.loadMatrix(f);
+        double[][] matrixFromFile = MatrixFileCommunicator.loadMatrix(f);
         Matrix matrix1 = new Matrix(f);
         Matrix matrix2 = new Matrix(matrixFromFile);
         Matrix matrix3 = new Matrix(matrix2);

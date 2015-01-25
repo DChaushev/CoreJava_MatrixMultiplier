@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author Dimitar
  */
-public class MatrixFileInteraction {
+public class MatrixFileCommunicator {
 
     public static double[][] loadMatrix(File file) {
 
@@ -42,9 +42,9 @@ public class MatrixFileInteraction {
 
             System.out.println("Matrix loaded!");
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(MatrixFileInteraction.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MatrixFileCommunicator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(MatrixFileInteraction.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MatrixFileCommunicator.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return result;
@@ -66,9 +66,9 @@ public class MatrixFileInteraction {
 
             System.out.println("Matrix written!");
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(MatrixFileInteraction.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MatrixFileCommunicator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(MatrixFileInteraction.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MatrixFileCommunicator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

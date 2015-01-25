@@ -5,7 +5,7 @@
  */
 package com.fmi.corejava.matrix;
 
-import com.fmi.corejava.io.MatrixFileInteraction;
+import com.fmi.corejava.io.MatrixFileCommunicator;
 import com.fmi.corejava.operations.MatrixMutiplier;
 import java.io.File;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ public class Matrix {
     private double[][] matrix;
 
     public Matrix(File file) {
-        this.setMatrix(MatrixFileInteraction.loadMatrix(file));
+        this.setMatrix(MatrixFileCommunicator.loadMatrix(file));
     }
 
     public Matrix(double[][] matrix) {
